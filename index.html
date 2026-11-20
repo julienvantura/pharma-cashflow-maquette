@@ -273,6 +273,25 @@ button.drop{width:100%;font:inherit;color:var(--ink)}
 
 .grid2.merch{margin-top:0;grid-template-columns:1.6fr 1fr}@media (max-width:1240px){.grid2.merch{grid-template-columns:1fr}}
 .side [hidden]{display:none!important}
+.ngroups{display:grid;gap:2px}
+.ngh{display:flex;align-items:center;gap:10px;width:100%;border:0;background:none;text-align:left;padding:9px 10px;border-radius:8px;color:var(--night-ink);font:inherit;font-size:13px;font-weight:650;letter-spacing:.02em;cursor:pointer;transition:background .15s,color .15s}
+.ngh:hover{background:var(--night-2);color:#fff}.ngh>svg{width:18px;height:18px;flex:none}.ngh .lbl{flex:1}
+.ngh .chev{width:16px;height:16px;opacity:.6;transition:transform .3s cubic-bezier(.16,1,.3,1)}.ngrp.open .chev,.ngrp.qopen .chev{transform:rotate(180deg)}
+.ngrp.here>.ngh{color:#fff}.ngh .rdot{display:none}
+.ngb{display:grid;grid-template-rows:0fr;transition:grid-template-rows .3s cubic-bezier(.16,1,.3,1)}.ngrp.open .ngb,.ngrp.qopen .ngb{grid-template-rows:1fr}
+.ngi{overflow:hidden;display:grid;gap:2px;padding-left:14px;margin-left:18px;border-left:1px solid var(--night-line)}
+.ngrp.open .ngi,.ngrp.qopen .ngi{padding-top:2px;padding-bottom:6px}
+.ngi .nav{padding:7px 10px;font-size:14px}.flyt{display:none}
+/* menu replié : une icône par rubrique, volet au clic */
+.shell.rail .ngh{width:44px;height:44px;justify-content:center;padding:0;position:relative}.shell.rail .ngh .lbl,.shell.rail .ngh .chev,.shell.rail .ngh .count{display:none}
+.shell.rail .ngrp.here>.ngh{background:linear-gradient(90deg,var(--electric),color-mix(in srgb,var(--electric) 70%,var(--cyan)));color:#fff}
+.shell.rail .ngh .rdot{display:block;position:absolute;top:3px;right:2px;font-size:10px;padding:0 5px;min-width:16px;text-align:center;border-radius:99px;background:var(--cyan);color:#04121A;font-weight:700}
+.shell.rail .ngh::after{content:attr(data-tip);position:fixed;left:76px;background:#fff;color:var(--night);font-size:12.5px;font-weight:600;padding:5px 10px;border-radius:7px;white-space:nowrap;opacity:0;pointer-events:none;transition:opacity .15s;z-index:60}
+.shell.rail .ngh:hover::after{opacity:1}.shell.rail .ngrp.fly .ngh::after{opacity:0}
+.shell.rail .side{z-index:40}.shell.rail .ngb{display:none}
+.shell.rail .ngrp.fly .ngb{display:block;position:fixed;left:72px;z-index:70;margin-top:-44px;background:var(--night);border:1px solid var(--night-line);border-radius:12px;padding:8px;min-width:210px;box-shadow:0 18px 40px rgba(0,0,0,.35)}
+.shell.rail .ngrp.fly .ngi{border:0;margin:0;padding:0}.shell.rail .ngrp.fly .flyt{display:block;font-size:11px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--night-mute);padding:4px 10px 6px}
+.shell.rail .ngrp.fly .nav{width:100%;height:auto;justify-content:flex-start;padding:8px 10px}.shell.rail .ngrp.fly .nav .lbl{display:inline}.shell.rail .ngrp.fly .nav::after{display:none}.shell.rail .ngrp.fly .nav .count{position:static;margin-left:auto}
 .nav-grp{display:block;font-size:10.5px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--mute);padding:14px 10px 4px}.side .nav-grp{color:var(--night-mute)}
 .nav-q{position:relative;display:flex;align-items:center;margin:0 0 6px}.nav-q>svg{position:absolute;left:10px;width:15px;height:15px;color:var(--night-mute);pointer-events:none}
 .nav-q input{width:100%;font:inherit;font-size:13px;padding:8px 10px 8px 32px;border-radius:8px;border:1px solid var(--night-line);background:var(--night-2);color:#fff}.nav-q input::placeholder{color:var(--night-mute)}
@@ -698,10 +717,10 @@ function rolePharma(){ return PHARMAS.find(p=>p.id===state.pharma); }
 /* ================= SYLVAIN ================= */
 function sylvainNav(){
   return sideNav('Réseau Pharma Cashflow',`${PHARMAS.length} pharmacies · La Réunion`,[
-    ['§','Réseau'],['reseau','network','Mon réseau',null,null,'accueil pharmacies'],['comparaison','chart-no-axes-column','Comparaison',null,null,'benchmark anonyme'],
-    ['§','Pharmacies'],['nouvelle','plus','Nouvelle pharmacie',null,null,'ajouter creer installation assistant'],['imports','upload','Imports',1,null,'fichiers export donnees'],['merchreseau','layout-grid','Merchandising',2,null,'rayons gondoles modeles implantation'],
-    ['§','Commercial'],['abonnements','receipt','Abonnements',null,null,'facturation formules revenu'],
-    ['§','Réglages'],['parametres','settings','Paramètres',null,null,'compte']
+    ['§','Réseau','network'],['reseau','network','Mon réseau',null,null,'accueil pharmacies'],['comparaison','chart-no-axes-column','Comparaison',null,null,'benchmark anonyme'],
+    ['§','Pharmacies','building-2'],['nouvelle','plus','Nouvelle pharmacie',null,null,'ajouter creer installation assistant'],['imports','upload','Imports',1,null,'fichiers export donnees'],['merchreseau','layout-grid','Merchandising',2,null,'rayons gondoles modeles implantation'],
+    ['§','Commercial','receipt'],['abonnements','receipt','Abonnements',null,null,'facturation formules revenu'],
+    ['§','Réglages','settings'],['parametres','settings','Paramètres',null,null,'compte']
   ]);
 }
 function sylvainReseau(){
@@ -896,11 +915,11 @@ function pharmaNav(){
   const p = rolePharma();
   const nsg=sigs().filter(x=>x.status==='nouveau').length;
   return sideNav(p.name, `${p.city} · ${p.lgo}`,[
-    ['§','Au quotidien'],['aujourdhui','sun','Aujourd\'hui',3-[...state.done].length||null,null,'accueil priorites'],['signalements','flag','Signalements',nsg||null,null,'vide rayon probleme photo preparateur alerte'],['liste','list-checks','Liste préparateur',null,null,'taches missions'],['copilote','sparkles','Copilote',null,null,'question aide'],
-    ['§','Stock et argent'],['stock','package','Stock',null,null,'produits dormant perime rupture inventaire'],['tresorerie','wallet','Argent',4,null,'tresorerie avoirs remises simulation'],['rapports','file-text','Rapports',null,null,'pdf mensuel export'],
-    ['§','Achats'],['fournisseurs','truck','Fournisseurs',null,null,'grossiste delais livraison'],['previsions','chart-spline','Prévisions',null,null,'commande saison ventes'],['portail','handshake','Portail fournisseurs',null,null,'litiges commandes'],
-    ['§','Magasin'],['merch','layout-grid','Merchandising',null,null,'rayon gondole planogramme photo implantation'],['jumeau','box','Jumeau 3D',null,null,'plan officine 3d ou est produit trouver'],['operations','megaphone','Opérations',null,null,'animation promotion'],
-    ['§','Réglages'],['equipe','users','Équipe',null,null,'alertes droits invitation utilisateurs'],['integrations','plug','Intégrations',null,null,'logiciel winpharma connexion']
+    ['§','Au quotidien','sun'],['aujourdhui','sun','Aujourd\'hui',3-[...state.done].length||null,null,'accueil priorites'],['signalements','flag','Signalements',nsg||null,null,'vide rayon probleme photo preparateur alerte'],['liste','list-checks','Liste préparateur',null,null,'taches missions'],['copilote','sparkles','Copilote',null,null,'question aide'],
+    ['§','Stock et argent','wallet'],['stock','package','Stock',null,null,'produits dormant perime rupture inventaire'],['tresorerie','wallet','Argent',4,null,'tresorerie avoirs remises simulation'],['rapports','file-text','Rapports',null,null,'pdf mensuel export'],
+    ['§','Achats','truck'],['fournisseurs','truck','Fournisseurs',null,null,'grossiste delais livraison'],['previsions','chart-spline','Prévisions',null,null,'commande saison ventes'],['portail','handshake','Portail fournisseurs',null,null,'litiges commandes'],
+    ['§','Magasin','store'],['merch','layout-grid','Merchandising',null,null,'rayon gondole planogramme photo implantation'],['jumeau','box','Jumeau 3D',null,null,'plan officine 3d ou est produit trouver'],['operations','megaphone','Opérations',null,null,'animation promotion'],
+    ['§','Réglages','settings'],['equipe','users','Équipe',null,null,'alertes droits invitation utilisateurs'],['integrations','plug','Intégrations',null,null,'logiciel winpharma connexion']
   ]);
 }
 function banner(){
@@ -1791,9 +1810,15 @@ function prep(){
 
 /* ================= shell ================= */
 function sideNav(title,sub,items){
+  const cur=NAVOF[state.page]||state.page, G=[];
+  items.forEach(it=>{if(it[0]==='§')G.push({name:it[1],icon:it[2]||'folder',items:[]});else (G.at(-1)||(G.push({name:'',icon:'folder',items:[]}),G.at(-1))).items.push(it);});
+  state.navOpen??=new Set();
+  const btn=([k,i,l,c,ph,kw])=>`<button class="nav" data-page="${k}" data-tip="${l}" data-kw="${normTxt(l+' '+(kw||''))}" aria-label="${l}" ${cur===k?'aria-current="page"':''}><i data-lucide="${i}"></i><span class="lbl">${l}</span>${c?`<span class="count">${c}</span>`:''}</button>`;
   return `<aside class="side"><div class="ctx"><div class="lbl"><b>${title}</b><span>${sub}</span></div><button class="rail-btn" data-rail aria-label="${railOn()?'Déplier le menu':'Replier le menu'}" title="${railOn()?'Déplier le menu':'Replier le menu'}"><i data-lucide="${railOn()?'panel-left-open':'panel-left-close'}"></i></button></div>
   <div class="nav-q"><i data-lucide="search"></i><input type="search" placeholder="Chercher une fonction…" data-navq aria-label="Chercher une fonction"><button class="nav-qb" data-palette aria-label="Chercher" title="Chercher (⌘K)"><i data-lucide="search"></i></button></div>
-  ${items.map(([k,i,l,c,ph,kw])=>k==='§'?`<span class="nav-grp">${i}</span>`:`<button class="nav" data-page="${k}" data-tip="${l}" data-kw="${normTxt(l+' '+(kw||''))}" aria-label="${l}" ${(NAVOF[state.page]||state.page)===k?'aria-current="page"':''}><i data-lucide="${i}"></i><span class="lbl">${l}</span>${c?`<span class="count">${c}</span>`:''}${ph?`<span class="ph">${/^\d$/.test(ph)?ph:'V'+ph}</span>`:''}</button>`).join('')}
+  <div class="ngroups">${G.map(g=>{const here=g.items.some(x=>x[0]===cur),open=state.navOpen.has(g.name)||(here&&!state.navShut?.has(g.name)),sum=g.items.reduce((a,x)=>a+(+x[3]||0),0),fly=state.navFly===g.name;
+    return `<div class="ngrp ${open?'open':''} ${here?'here':''} ${fly?'fly':''}"><button class="ngh" data-navgrp="${g.name}" data-tip="${g.name}" aria-expanded="${open}" aria-label="${g.name}"><i data-lucide="${g.icon}"></i><span class="lbl">${g.name}</span>${sum&&!open?`<span class="count">${sum}</span>`:''}${sum?`<span class="rdot">${sum}</span>`:''}<i data-lucide="chevron-down" class="chev"></i></button>
+    <div class="ngb"><div class="ngi"><span class="flyt">${g.name}</span>${g.items.map(btn).join('')}</div></div></div>`;}).join('')}</div>
   <div class="foot"><i data-lucide="shield-check"></i><span class="lbl">Hébergé en France</span></div></aside>`;
 }
 function healthBar(v,inverse){
@@ -1834,7 +1859,9 @@ function ask(i,text){
 function toast(t){const el=document.getElementById('toast');if(!el)return;document.getElementById('toastt').textContent=t;el.classList.add('show');setTimeout(()=>el.classList.remove('show'),1800);}
 
 document.addEventListener('click',e=>{if(!e.target.closest('.np-wrap'))document.getElementById('np')?.classList.remove('on');
-  const t=e.target.closest('[data-ph],[data-pv],[data-addcmd],[data-connect],[data-bell],[data-np],[data-rule],[data-rmtask],[data-review],[data-sendlist],[data-rail],[data-palette],[data-pal],[data-gostock],[data-prod],[data-pask],[data-twsc],[data-twhl],[data-al],[data-off],[data-free],[data-ver],[data-mgg],[data-mgpview],[data-mgok],[data-mgno],[data-mgopen],[data-twview],[data-twfind],[data-pfind],[data-preset],[data-sgstart],[data-sgg],[data-sgface],[data-sgit],[data-sgvide],[data-sgtype],[data-sgphoto],[data-sgphx],[data-sgback],[data-sgsend],[data-sgok],[data-sgtwin],[data-sgno],[data-fpwall],[data-fprotd],[data-fpbloc],[data-fpnew],[data-fpdel],[data-fpgen],[data-fpgenok],[data-fpadd],[data-fpdelv],[data-fpshape],[data-nfgo],[data-nfimp],[data-nfgadd],[data-nfgrm],[data-nftadd],[data-nfcreate],[data-mgaddg],[data-mgit],[data-mgfree],[data-mgf],[data-mgmv],[data-mgrm],[data-mgaddsh],[data-mgadd],[data-mgface],[data-phopen],[data-phx],[data-phsample],[data-phreal],[data-phfill],[data-mgconf],[data-mgrmsh],[data-mgw],[data-planprint],[data-pv],[data-relance],[data-close],[data-send],[data-import],[data-import-reset],[data-sf],[data-addlist],[data-save],[data-role],[data-page],[data-open],[data-back],[data-gomerch],[data-gtoast],[data-done],[data-q],[data-ptab],[data-task],[data-step],#valider,#theme');
+  if(state.navFly&&!e.target.closest('.ngrp.fly')){state.navFly=null;document.querySelector('.ngrp.fly')?.classList.remove('fly');}
+  if(e.target.closest('.ngrp .nav'))state.navFly=null;
+  const t=e.target.closest('[data-ph],[data-pv],[data-addcmd],[data-connect],[data-bell],[data-np],[data-rule],[data-rmtask],[data-review],[data-sendlist],[data-rail],[data-palette],[data-navgrp],[data-pal],[data-gostock],[data-prod],[data-pask],[data-twsc],[data-twhl],[data-al],[data-off],[data-free],[data-ver],[data-mgg],[data-mgpview],[data-mgok],[data-mgno],[data-mgopen],[data-twview],[data-twfind],[data-pfind],[data-preset],[data-sgstart],[data-sgg],[data-sgface],[data-sgit],[data-sgvide],[data-sgtype],[data-sgphoto],[data-sgphx],[data-sgback],[data-sgsend],[data-sgok],[data-sgtwin],[data-sgno],[data-fpwall],[data-fprotd],[data-fpbloc],[data-fpnew],[data-fpdel],[data-fpgen],[data-fpgenok],[data-fpadd],[data-fpdelv],[data-fpshape],[data-nfgo],[data-nfimp],[data-nfgadd],[data-nfgrm],[data-nftadd],[data-nfcreate],[data-mgaddg],[data-mgit],[data-mgfree],[data-mgf],[data-mgmv],[data-mgrm],[data-mgaddsh],[data-mgadd],[data-mgface],[data-phopen],[data-phx],[data-phsample],[data-phreal],[data-phfill],[data-mgconf],[data-mgrmsh],[data-mgw],[data-planprint],[data-pv],[data-relance],[data-close],[data-send],[data-import],[data-import-reset],[data-sf],[data-addlist],[data-save],[data-role],[data-page],[data-open],[data-back],[data-gomerch],[data-gtoast],[data-done],[data-q],[data-ptab],[data-task],[data-step],#valider,#theme');
   if(!t) return;
   if(t.dataset.ph){state.ph=+t.dataset.ph;state.counted?.clear();return render();}
   if(t.dataset.pv&&!t.dataset.pv.includes('|')){state.pv=t.dataset.pv;state.counted?.clear();return render();}
@@ -1847,6 +1874,10 @@ document.addEventListener('click',e=>{if(!e.target.closest('.np-wrap'))document.
   if(t.hasAttribute('data-review')){state.review=!(state.review??true);return render();}
   if(t.hasAttribute('data-sendlist')){state.dirty=false;render();gtoast('Liste envoyée à Kévin et Marie','preparateur');return;}
   if(t.hasAttribute('data-rail')){state.rail=!railOn();try{localStorage.setItem('pc-rail',state.rail?'1':'0')}catch(e){}return render();}
+  if(t.dataset.navgrp!==undefined){const n=t.dataset.navgrp;if(railOn()){state.navFly=state.navFly===n?null:n;return render();}
+    const el=t.closest('.ngrp'),open=el.classList.contains('open');state.navOpen??=new Set();state.navShut??=new Set();
+    if(open){state.navOpen.delete(n);state.navShut.add(n);}else{state.navOpen.add(n);state.navShut.delete(n);}
+    el.classList.toggle('open',!open);t.setAttribute('aria-expanded',!open);const c=t.querySelector('.count');if(c)c.style.display=!open?'none':'';return;}
   if(t.hasAttribute('data-palette')){openPalette();return;}
   if(t.dataset.pal){pickPalette(t.dataset.pal);return;}
   if(t.dataset.gostock){state.stockF=t.dataset.gostock;state.page='stock';return render();}
@@ -1968,7 +1999,7 @@ document.addEventListener('change',e=>{const el=e.target;if(!el.dataset)return;
   if(el.dataset.fpwl){const P=normRoom(fpTarget(el.dataset.ctx)),V=P.room.poly,i=+el.dataset.fpwl,A=V[i],B=V[(i+1)%V.length],L=wallLen(A,B)||1,nl=Math.max(.5,+el.value||L);V[(i+1)%V.length]=[+(A[0]+(B[0]-A[0])/L*nl).toFixed(2),+(A[1]+(B[1]-A[1])/L*nl).toFixed(2)];P.room.w=Math.max(P.room.w,Math.ceil(Math.max(...V.map(v=>v[0])))) ;P.room.d=Math.max(P.room.d,Math.ceil(Math.max(...V.map(v=>v[1]))));const n=nearestWall(P,P.door.x,P.door.z);P.door={x:n.x,z:n.z,a:n.a};clampAll(P);return render();}
   if(el.dataset.room){const P=normRoom(fpTarget(el.dataset.ctx)),k=el.dataset.room,old=P.room[k],v=Math.max(+el.min,Math.min(+el.max,+el.value||old)),f=v/old,j=k==='w'?0:1;P.room[k]=v;P.room.poly.forEach(q=>{q[j]=+(q[j]*f).toFixed(1);});P.pos.forEach(q=>{if(j)q.z=+(q.z*f).toFixed(1);else q.x=+(q.x*f).toFixed(1);});if(j)P.counter.z=+(P.counter.z*f).toFixed(1);else P.counter.x=+(P.counter.x*f).toFixed(1);const n=nearestWall(P,P.door.x*(j?1:f),P.door.z*(j?f:1));P.door={x:n.x,z:n.z,a:n.a};clampAll(P);return render();}
 });
-document.addEventListener('input',e=>{if(e.target.hasAttribute?.('data-navq')){const q=normTxt(e.target.value.trim()),side=e.target.closest('.side');side.querySelectorAll('.nav').forEach(b=>b.hidden=!!q&&!b.dataset.kw.includes(q));side.querySelectorAll('.nav-grp').forEach(h=>{let n=h.nextElementSibling,any=false;while(n&&!n.classList.contains('nav-grp')){if(n.classList.contains('nav')&&!n.hidden)any=true;n=n.nextElementSibling;}h.hidden=!any;});return;}
+document.addEventListener('input',e=>{if(e.target.hasAttribute?.('data-navq')){const q=normTxt(e.target.value.trim()),side=e.target.closest('.side');side.querySelectorAll('.nav').forEach(b=>b.hidden=!!q&&!b.dataset.kw.includes(q));side.querySelectorAll('.ngrp').forEach(g=>{const any=[...g.querySelectorAll('.nav')].some(b=>!b.hidden);g.hidden=!!q&&!any;g.classList.toggle('qopen',!!q&&any);});return;}
   if(e.target.hasAttribute?.('data-sgnote')){state.sg.note=e.target.value;return;}
   if(e.target.hasAttribute?.('data-twq')){state.twq=e.target.value;state.twqOpen=true;const L=document.querySelector('.whres');if(L){L.innerHTML=whereList(storeOf(state.pharma),state.twq);lucide.createIcons();}return;}
   if(e.target.hasAttribute?.('data-pq')){state.pq=e.target.value;if(state.pfind){state.pfind=null;document.querySelector('.mloc')?.remove();}const L=document.querySelector('.pres');if(L){L.innerHTML=presList();lucide.createIcons();}return;}
